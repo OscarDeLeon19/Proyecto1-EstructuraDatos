@@ -71,3 +71,19 @@ Nodo* Lista::obtenerNodo(int pos) {
 	}
 	return aux;
 }
+
+void Lista::verValores() {
+	Nodo* auxiliar = primero;
+	cout << " | ";
+	while (auxiliar != NULL) {
+		int pos = auxiliar->valor;
+		if (pos > 9) {
+			cout << pos << " | ";
+		}
+		else {
+			cout << pos << "  | ";
+		}
+		auxiliar = auxiliar->siguiente;
+	}
+	cout << endl;
+}

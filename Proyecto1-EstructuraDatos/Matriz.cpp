@@ -10,20 +10,30 @@ Matriz::Matriz(int filas, int columnas, int niveles) {
 	this->niveles = niveles;
 }
 
+Lista* Matriz::obtenerLista() {
+	return lista;
+}
 void Matriz::verDatosMatriz() {
 	cout << "Filas: " << filas <<endl;
 	cout << "Columnas: " << columnas << endl;
 	cout << "Niveles: " << niveles << endl;
 }
 
-void Matriz::listarMatriz() {
+void Matriz::listarMatrizPosicion() {
 	for (size_t i = 0; i < columnas; i++)
 	{
 		lista[i].verLista();
 	}
 }
 
+void Matriz::listarMatrizValor() {
+	for (int i = 0; i < columnas; i++)
+	{
+		lista[i].verValores();
+	}
+}
 void Matriz::generarMatriz() {
+	// Se inicia con la creacion de las listas enlazadas
 	lista = new Lista[columnas];
 	for (size_t i = 0; i < columnas; i++)
 	{
@@ -32,10 +42,10 @@ void Matriz::generarMatriz() {
 		int final = filas * (i + 1);
 		lista[i].llenarLista(inicio,final);
 	}
-	listarMatriz();
+	listarMatrizPosicion();
 	primero = new (Nodo);
 	primero = lista[0].primero;
-	// Iniciamos el proceso de agregar la matriz;
+	// Iniciamos el proceso de agregar los nodos de arriba y abajo;
 	for (size_t i = 0; i < columnas -1; i++)
 	{
 		for (size_t j = 0; j < filas; j++)
@@ -48,5 +58,21 @@ void Matriz::generarMatriz() {
 			nodo2->arriba = nodo1;
 		}
 	}
+}
+
+void Matriz::ingresarDatos(int* datosMatriz) {
+	int dato = 0;
+	for (int i = 0; i < columnas; i++)
+	{
+		for (int j = 0; j < filas; j++)
+		{
+			Nodo* nodo = new (Nodo);
+			nodo = lista[i].obtenerNodo(j);
+			nodo->valor = datosMatriz[dato];
+			dato++;
+		}
+	}
+	listarMatrizValor();
+	cout << "pos" << primero->abajo->siguiente->arriba->siguiente->abajo->valor << endl;
 }
 
