@@ -2,6 +2,7 @@
 #include <string>
 #include <stdlib.h>
 #include "Matriz.h"
+#include "Juego.h"
 
 
 using namespace std;
@@ -27,12 +28,12 @@ int* ingresarDatos(int filas, int columnas) {
     for (int i = 0; i < dimension; i++)
     {
         int valor = -1;
-        cout << "Ingresa la posicion " << i << ": ";        
+        cout << "Ingresa la posicion " << (i +1) << ": ";        
         while (valor < 0 || valor >= dimension) {
             cin >> valor;
             if (valor < 0 || valor >= dimension) {
                 cout << "DatoInvalido" << endl ;
-                cout << "Ingresa la posicion " << i << ": ";
+                cout << "Ingresa la posicion " << (i + 1) << ": ";
             }
         }
         bool comprobacion = comprobarNumero(i, valor, datosMatriz);
@@ -68,11 +69,8 @@ int* ingresarDatosAleatorios(int filas, int columnas) {
 
 int main()
 {
-    cout <<"Bienvenido al juego" << endl;
-    int filas, columnas, niveles;
-    string nombre;
-    cout << "Ingresa tu nombre: " << endl;
-    cin >> nombre;
+    cout << "Bienvenido al juego" << endl;
+    int filas, columnas, niveles;    
     cout << "Ingresa el numero de filas: " << endl;
     cin >> filas;
     cout << "Ingresa el numero de columnas: " << endl;
@@ -80,7 +78,7 @@ int main()
     cout << "Ingresa la cantidad de niveles: " << endl;
     cin >> niveles;
 
-    Matriz *matriz = new Matriz(filas, columnas, niveles);
+    Matriz* matriz = new Matriz(filas, columnas, niveles);
     matriz->generarMatriz();
     int* datosMatriz = NULL;
     int desicion;
@@ -97,8 +95,8 @@ int main()
         datosMatriz = ingresarDatos(filas, columnas);
     }
     else if (desicion == 2) {
-        
         datosMatriz = ingresarDatosAleatorios(filas, columnas);
     }
-    matriz->ingresarDatos(datosMatriz);
+    Juego* juego = new Juego(matriz, datosMatriz);
+    juego->iniciarJuego();
 }

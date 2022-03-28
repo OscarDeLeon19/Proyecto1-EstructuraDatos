@@ -10,8 +10,63 @@ Matriz::Matriz(int filas, int columnas, int niveles) {
 	this->niveles = niveles;
 }
 
+bool Matriz::comprobarVictoria(){
+	bool comprobacion = true;
+	for (int i = 0; i < columnas; i++)
+	{
+		for (int j = 0; j < filas; j++)
+		{
+			Nodo* nodo = new (Nodo);
+			nodo = lista[i].obtenerNodo(j);
+			if (i == (columnas - 1) && j == (filas -1)) {
+				if (nodo->valor != 0) {
+					comprobacion = false;
+				}
+			}
+			else {
+				if (nodo->posicion != nodo->valor) {
+					comprobacion = false;
+				}
+			}
+		}
+	}
+	return comprobacion;
+}
+
+int Matriz::contarPunteo() {
+	int punteo = 0;
+	for (int i = 0; i < columnas; i++)
+	{
+		for (int j = 0; j < filas; j++)
+		{
+			Nodo* nodo = new (Nodo);
+			nodo = lista[i].obtenerNodo(j);
+			if (nodo->posicion == nodo->valor) {
+				punteo = punteo + 2;
+			}
+		}
+	}
+	return punteo;
+}
+
 Lista* Matriz::obtenerLista() {
 	return lista;
+}
+Nodo* Matriz::devolverJugador()
+{
+	Nodo* nodoJugador = new (Nodo);
+	for (int i = 0; i < columnas; i++)
+	{
+		for (int j = 0; j < filas; j++)
+		{
+			Nodo* nodo = new (Nodo);
+			nodo = lista[i].obtenerNodo(j);
+			if (nodo->valor == 0) {
+				nodoJugador = nodo;
+			}
+		}
+	}
+	return nodoJugador;
 }
 void Matriz::verDatosMatriz() {
 	cout << "Filas: " << filas <<endl;
@@ -24,13 +79,16 @@ void Matriz::listarMatrizPosicion() {
 	{
 		lista[i].verLista();
 	}
+	cout << endl;
 }
 
 void Matriz::listarMatrizValor() {
+
 	for (int i = 0; i < columnas; i++)
 	{
 		lista[i].verValores();
 	}
+	cout << endl;
 }
 void Matriz::generarMatriz() {
 	// Se inicia con la creacion de las listas enlazadas
@@ -73,6 +131,5 @@ void Matriz::ingresarDatos(int* datosMatriz) {
 		}
 	}
 	listarMatrizValor();
-	cout << "pos" << primero->abajo->siguiente->arriba->siguiente->abajo->valor << endl;
 }
 

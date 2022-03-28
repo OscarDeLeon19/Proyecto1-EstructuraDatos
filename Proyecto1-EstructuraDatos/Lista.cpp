@@ -13,6 +13,7 @@ void Lista::llenarLista(int pos, int fin) {
 	primero->posicion = pos;
 	primero->anterior = NULL;
 	primero->arriba = NULL;
+	primero->abajo = NULL;
 	Nodo* auxiliar = primero;
 
 	for (size_t i = pos + 1; i <= fin; i++)

@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include "Lista.h"
+#include "Nodo.h"
 
 class Matriz {
 public:
@@ -10,7 +11,10 @@ public:
 	void listarMatrizPosicion();
 	void listarMatrizValor();
 	void ingresarDatos(int*);
+	int contarPunteo();
+	bool comprobarVictoria();
 	Lista* obtenerLista();
+	Nodo* devolverJugador();
 private:
 	int filas;
 	int columnas;
