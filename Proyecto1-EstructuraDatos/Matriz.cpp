@@ -83,7 +83,7 @@ void Matriz::listarMatrizPosicion() {
 }
 
 void Matriz::listarMatrizValor() {
-
+	cout << endl;
 	for (int i = 0; i < columnas; i++)
 	{
 		lista[i].verValores();

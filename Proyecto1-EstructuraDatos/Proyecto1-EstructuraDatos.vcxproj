@@ -143,12 +143,16 @@
     <ClCompile Include="Lista.cpp" />
     <ClCompile Include="Matriz.cpp" />
     <ClCompile Include="Proyecto1-EstructuraDatos.cpp" />
+    <ClCompile Include="Reporte.cpp" />
+    <ClCompile Include="Tabla.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="Matriz.h" />
     <ClInclude Include="Nodo.h" />
+    <ClInclude Include="Reporte.h" />
+    <ClInclude Include="Tabla.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
