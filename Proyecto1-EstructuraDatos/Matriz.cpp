@@ -4,13 +4,16 @@
 #include <iostream>
 using namespace std;
 
-Matriz::Matriz(int filas, int columnas, int niveles) {
+Matriz::Matriz(int filas, int columnas) {
 	this->filas = filas;
 	this->columnas = columnas;
-	this->niveles = niveles;
 }
 
-bool Matriz::comprobarVictoria(){
+Matriz::Matriz()
+{
+}
+
+bool Matriz::comprobarVictoria(bool ultimo){
 	bool comprobacion = true;
 	for (int i = 0; i < columnas; i++)
 	{
@@ -18,9 +21,16 @@ bool Matriz::comprobarVictoria(){
 		{
 			Nodo* nodo = new (Nodo);
 			nodo = lista[i].obtenerNodo(j);
-			if (i == (columnas - 1) && j == (filas -1)) {
-				if (nodo->valor != 0) {
-					comprobacion = false;
+			if (ultimo == true) {
+				if (i == (columnas - 1) && j == (filas - 1)) {
+					if (nodo->valor != 0) {
+						comprobacion = false;
+					}
+				}
+				else {
+					if (nodo->posicion != nodo->valor) {
+						comprobacion = false;
+					}
 				}
 			}
 			else {
@@ -71,7 +81,6 @@ Nodo* Matriz::devolverJugador()
 void Matriz::verDatosMatriz() {
 	cout << "Filas: " << filas <<endl;
 	cout << "Columnas: " << columnas << endl;
-	cout << "Niveles: " << niveles << endl;
 }
 
 void Matriz::listarMatrizPosicion() {
@@ -100,7 +109,6 @@ void Matriz::generarMatriz() {
 		int final = filas * (i + 1);
 		lista[i].llenarLista(inicio,final);
 	}
-	listarMatrizPosicion();
 	primero = new (Nodo);
 	primero = lista[0].primero;
 	// Iniciamos el proceso de agregar los nodos de arriba y abajo;
@@ -118,8 +126,8 @@ void Matriz::generarMatriz() {
 	}
 }
 
-void Matriz::ingresarDatos(int* datosMatriz) {
-	int dato = 0;
+int Matriz::ingresarDatos(int dato, int* datosMatriz) {
+	
 	for (int i = 0; i < columnas; i++)
 	{
 		for (int j = 0; j < filas; j++)
@@ -130,6 +138,19 @@ void Matriz::ingresarDatos(int* datosMatriz) {
 			dato++;
 		}
 	}
-	listarMatrizValor();
+	return dato;
 }
 
+int Matriz::ingresarPosiciones(int lugar) {
+	for (int i = 0; i < columnas; i++)
+	{
+		for (int j = 0; j < filas; j++)
+		{
+			Nodo* nodo = new (Nodo);
+			nodo = lista[i].obtenerNodo(j);
+			nodo->posicion = lugar;
+			lugar++;
+		}
+	}
+	return lugar;
+}

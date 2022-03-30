@@ -14,6 +14,8 @@ void Lista::llenarLista(int pos, int fin) {
 	primero->anterior = NULL;
 	primero->arriba = NULL;
 	primero->abajo = NULL;
+	primero->adelante = NULL;
+	primero->atras = NULL;
 	Nodo* auxiliar = primero;
 
 	for (size_t i = pos + 1; i <= fin; i++)
@@ -23,6 +25,8 @@ void Lista::llenarLista(int pos, int fin) {
 		nuevo->posicion = i;
 		nuevo->abajo = NULL;
 		nuevo->arriba = NULL;
+		nuevo->adelante = NULL;
+		nuevo->atras = NULL;
 		auxiliar->siguiente = nuevo;
 		anterior = auxiliar;
 		auxiliar = auxiliar->siguiente;

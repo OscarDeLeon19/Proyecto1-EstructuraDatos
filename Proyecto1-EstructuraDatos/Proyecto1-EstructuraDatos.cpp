@@ -21,8 +21,8 @@ bool comprobarNumero(int inicio, int numero, int *arreglo) {
     return comprobacion;
 }
 
-int* ingresarDatos(int filas, int columnas) {
-    int dimension = filas * columnas;
+int* ingresarDatos(int filas, int columnas, int niveles) {
+    int dimension = filas * columnas * niveles;
     int* datosMatriz = new int[dimension];
     cout << "Ingresa los datos de la matriz. Debe ser mayor a 0 y menor a " << (dimension -1) << " El valor 0 sera tu posicion inicial. " << endl;
     for (int i = 0; i < dimension; i++)
@@ -48,8 +48,8 @@ int* ingresarDatos(int filas, int columnas) {
     return datosMatriz;
 }
 
-int* ingresarDatosAleatorios(int filas, int columnas) {
-    int dimension = filas * columnas;
+int* ingresarDatosAleatorios(int filas, int columnas, int niveles) {
+    int dimension = filas * columnas * niveles;
     int* datosMatriz = new int[dimension];
     for (int i = 0; i < dimension; i++)
     {
@@ -77,9 +77,13 @@ int main()
     cin >> columnas;
     cout << "Ingresa la cantidad de niveles: " << endl;
     cin >> niveles;
-
-    Matriz* matriz = new Matriz(filas, columnas, niveles);
-    matriz->generarMatriz();
+    Matriz* matrices = new Matriz[niveles];
+    int inicio = 1;
+    for (int i = 0; i < niveles; i++)
+    {
+        matrices[i] = Matriz(filas, columnas);
+        matrices[i].generarMatriz();
+    }
     int* datosMatriz = NULL;
     int desicion;
     do {
@@ -92,11 +96,11 @@ int main()
         }
     } while (desicion < 1 || desicion > 2);
     if (desicion == 1) {
-        datosMatriz = ingresarDatos(filas, columnas);
+        datosMatriz = ingresarDatos(filas, columnas, niveles);
     }
     else if (desicion == 2) {
-        datosMatriz = ingresarDatosAleatorios(filas, columnas);
+        datosMatriz = ingresarDatosAleatorios(filas, columnas, niveles);
     }
-    Juego* juego = new Juego(matriz, datosMatriz);
+    Juego* juego = new Juego(matrices, datosMatriz, niveles, columnas, filas);
     juego->iniciarJuego();
 }

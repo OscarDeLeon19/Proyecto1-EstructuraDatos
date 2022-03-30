@@ -4,21 +4,27 @@
 #include "Tabla.h"
 using namespace std;
 
-Juego::Juego(Matriz *matriz, int* datosMatriz)
+Juego::Juego(Matriz *matriz, int* datosMatriz, int niveles, int columnas, int filas)
 {
 	this->matriz = matriz;
 	this->datosMatriz = datosMatriz;
+	this->niveles = niveles;
+	this->columnas = columnas;
+	this->filas = filas;
 	tabla = new Tabla();
 }
+
 
 void Juego::iniciarJuego() {
 	string nombre;
 	cout << "Ingresa tu nombre: " << endl;
 	cin >> nombre;
 	cout << "Inicia el juego" << endl;
-	iniciarMatriz();
-	jugador = new (Nodo);
-	jugador = matriz->devolverJugador();
+	iniciarMatriz();	
+	agregarNodosMatriz();
+	obtenerJugador();
+	
+	
 	bool accion = true;
 	int pasos = 0;
 	unsigned tiempoInicial, tiempoFinal;
@@ -30,6 +36,8 @@ void Juego::iniciarJuego() {
 	cout << "Mover izquierda: A" << endl;
 	cout << "Mover abajo: S" << endl;
 	cout << "Mover derecha: D" << endl;
+	cout << "Mover adelante: E" << endl;
+	cout << "Mover atras: Q" << endl;
 	cout << "Reiniciar: R" << endl;
 	cout << "Terminar: T" << endl;
 	cout << "Puntajes: P" << endl;
@@ -37,7 +45,6 @@ void Juego::iniciarJuego() {
 	cout << endl;
 	while (accion == true) {
 		if (accion == true) {
-			cout << endl;
 			pasos++;			
 			char movimiento;
 			cin >> movimiento;
@@ -54,12 +61,18 @@ void Juego::iniciarJuego() {
 			case 'd':
 				moverDerecha();
 				break;
+			case 'q':
+				moverAtras();
+				break;
+			case 'e':
+				moverAdelante();
+				break;
 			case 't':
 				accion = false;
 				break;
 			case 'r':
 				iniciarMatriz();
-				jugador = matriz->devolverJugador();
+				obtenerJugador();
 				break;
 			case 'p':
 				tabla->verReportes();
@@ -71,6 +84,8 @@ void Juego::iniciarJuego() {
 				cout << "Mover izquierda: A" << endl;
 				cout << "Mover abajo: S" << endl;
 				cout << "Mover derecha: D" << endl;
+				cout << "Mover adelante: E" << endl;
+				cout << "Mover atras: Q" << endl;
 				cout << "Reiniciar: R" << endl;
 				cout << "Terminar: T" << endl;
 				cout << "Puntajes: P" << endl;
@@ -80,7 +95,7 @@ void Juego::iniciarJuego() {
 			default:
 				cout << "Accion invalida" << endl;
 			}
-			bool victoria = matriz->comprobarVictoria();
+			bool victoria = comprobarVictoria();
 			if (victoria == true) {
 				cout << "Haz ganado" << endl;
 				accion = false;				
@@ -89,7 +104,7 @@ void Juego::iniciarJuego() {
 	}
 		tiempoFinal = clock();
 		double tiempoPartida = (double(tiempoFinal - tiempoInicial) / CLOCKS_PER_SEC);
-		int punteo = matriz->contarPunteo();
+		int punteo = obtenerPunteo();;
 		cout << endl;
 		cout << "Reporte" << endl;
 		cout << "Pasos: " << pasos << endl;
@@ -106,6 +121,7 @@ void Juego::iniciarJuego() {
 		if (des == 1) {
 			iniciarJuego();
 		}
+		
 }
 
 void Juego::moverArriba() {
@@ -121,7 +137,7 @@ void Juego::moverArriba() {
 		nuevo->valor = posNuevo;
 		jugador->valor = posJugador;
 	}
-	matriz->listarMatrizValor();
+	listarMatriz();
 }
 
 void Juego::moverAbajo() {
@@ -137,7 +153,7 @@ void Juego::moverAbajo() {
 		nuevo->valor = posNuevo;
 		jugador->valor = posJugador;
 	}
-	matriz->listarMatrizValor();
+	listarMatriz();
 }
 
 void Juego::moverIzquierda() {
@@ -153,7 +169,7 @@ void Juego::moverIzquierda() {
 		nuevo->valor = posNuevo;
 		jugador->valor = posJugador;
 	}
-	matriz->listarMatrizValor();
+	listarMatriz();
 }
 
 void Juego::moverDerecha() {
@@ -169,9 +185,124 @@ void Juego::moverDerecha() {
 		nuevo->valor = posNuevo;
 		jugador->valor = posJugador;
 	}
-	matriz->listarMatrizValor();
+	listarMatriz();
+}
+
+void Juego::moverAdelante() {
+	if (jugador->atras != NULL) {
+		Nodo* nuevo = new (Nodo);
+		Nodo* aux = new (Nodo);
+		nuevo = jugador->atras;
+		int posJugador = jugador->valor;
+		int posNuevo = nuevo->valor;
+		aux = jugador;
+		jugador = nuevo;
+		nuevo = aux;
+		nuevo->valor = posNuevo;
+		jugador->valor = posJugador;
+	}
+	listarMatriz();
+}
+
+void Juego::moverAtras() {
+	if (jugador->adelante != NULL) {
+		Nodo* nuevo = new (Nodo);
+		Nodo* aux = new (Nodo);
+		nuevo = jugador->adelante;
+		int posJugador = jugador->valor;
+		int posNuevo = nuevo->valor;
+		aux = jugador;
+		jugador = nuevo;
+		nuevo = aux;
+		nuevo->valor = posNuevo;
+		jugador->valor = posJugador;
+	}
+	listarMatriz();
 }
 
 void Juego::iniciarMatriz() {
-	matriz->ingresarDatos(datosMatriz);
+	int dato = 0;
+	int posicion = 1;
+	for (int i = 0; i < niveles; i++)
+	{
+		int nuevo = matriz[i].ingresarPosiciones(posicion);
+		posicion = nuevo;
+	}
+	for (int i = 0; i < niveles; i++)
+	{
+		int nuevo = matriz[i].ingresarDatos(dato, datosMatriz);
+		dato = nuevo;
+	}
+	listarMatriz();
 }
+
+void Juego::agregarNodosMatriz()
+{
+	for (int i = 0; i < (niveles - 1); i++)
+	{
+		Lista* lista1 = matriz[i].obtenerLista();
+		Lista* lista2 = matriz[i+1].obtenerLista();
+		for (int i = 0; i < columnas; i++)
+		{
+			for (int j = 0; j < filas; j++)
+			{
+				Nodo* nodo1 = new (Nodo);
+				Nodo* nodo2 = new (Nodo);
+				nodo1 = lista1[i].obtenerNodo(j);
+				nodo2 = lista2[i].obtenerNodo(j);
+				nodo1->adelante = nodo2;
+				nodo2->atras = nodo1;
+			}
+		}
+	}
+}
+
+void Juego::listarMatriz()
+{
+	for (int i = 0; i < niveles; i++)
+	{
+		cout << "Nivel " << (i + 1) << endl;
+		matriz[i].listarMatrizValor();
+	}
+}
+
+void Juego::obtenerJugador()
+{
+	jugador = new (Nodo);	
+	for (int i = 0; i < niveles; i++)
+	{
+		jugador = matriz[i].devolverJugador();
+		if (jugador->valor == 0) {
+			break;
+		}
+	}
+}
+
+int Juego::obtenerPunteo()
+{
+	int total = 0;
+	for (int i = 0; i < niveles; i++)
+	{
+		int punteo = matriz[i].contarPunteo();
+		total = total + punteo;
+	}
+	return total;
+}
+
+bool Juego::comprobarVictoria()
+{
+	bool victoria = true;
+	for (int i = 0; i < niveles; i++)
+	{
+		if (i == (niveles - 1)) {
+			victoria = matriz[i].comprobarVictoria(true);
+		}
+		else {
+			victoria = matriz[i].comprobarVictoria(true);
+		}		
+	}
+	return victoria;
+}
+
+
+

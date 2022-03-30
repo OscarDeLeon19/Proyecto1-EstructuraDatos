@@ -5,20 +5,21 @@
 
 class Matriz {
 public:
-	Matriz(int,int,int);
+	Matriz(int,int);
+	Matriz();
 	void verDatosMatriz();
 	void generarMatriz();
 	void listarMatrizPosicion();
 	void listarMatrizValor();
-	void ingresarDatos(int*);
+	int ingresarDatos(int, int*);
+	int ingresarPosiciones(int);
 	int contarPunteo();
-	bool comprobarVictoria();
+	bool comprobarVictoria(bool);
 	Lista* obtenerLista();
 	Nodo* devolverJugador();
 private:
 	int filas;
 	int columnas;
-	int niveles;
 	class Lista* lista;
 	struct Nodo* primero;
 };
