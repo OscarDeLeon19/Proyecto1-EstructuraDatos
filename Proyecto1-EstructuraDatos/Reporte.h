@@ -5,7 +5,8 @@ using namespace std;
 class Reporte
 {
 public:
-	Reporte(string,int,double);
+	Reporte(string,int,int);
+	~Reporte();
 	void setNombre(string);
 	string getNombre();
 	void setPunteo(int);
@@ -17,6 +18,6 @@ public:
 private:
 	string nombre;
 	int punteo;
-	double tiempo;
+	int tiempo;
 	class Reporte* siguiente;
 };

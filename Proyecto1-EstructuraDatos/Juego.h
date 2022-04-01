@@ -6,6 +6,7 @@
 class Juego {
 public:
 	Juego(Matriz*, int*, int, int, int);
+	~Juego();
 	void iniciarJuego();
 	void moverArriba();
 	void moverAbajo();

@@ -4,10 +4,23 @@
 #include <iostream>
 using namespace std;
 
+/*
+	Constructor de la clase lista	
+*/
 Lista::Lista() {
 
 }
+/*
+	Destructor de la clase Lista
+*/
+Lista::~Lista()
+{
 
+}
+
+/*
+	Crea una fila de la matriz enlazando nodos.
+*/
 void Lista::llenarLista(int pos, int fin) {
 	primero = new (Nodo);
 	primero->posicion = pos;
@@ -35,6 +48,9 @@ void Lista::llenarLista(int pos, int fin) {
 	}
 }
 
+/*
+	Imprime la fila de una matriz
+*/
 void Lista::verLista() {
 	Nodo* auxiliar = primero;
 	cout << " | ";
@@ -51,23 +67,9 @@ void Lista::verLista() {
 	cout << endl;
 }
 
-void Lista::verListaAlRevez() {
-	Nodo* auxiliar = primero;	
-	while (auxiliar != NULL) {
-		auxiliar = auxiliar->siguiente;
-		if (auxiliar->siguiente == NULL) {
-			Nodo* otro = new (Nodo);
-			otro = auxiliar;
-			while (otro != NULL) {
-				cout << "Nodo No." << otro->posicion << endl;
-				otro = otro->anterior;
-			}
-			break;
-		}		
-	}
-	cout << endl;
-}
-
+/*
+	Obtiene un nodo de la lista segun su posicion.
+*/
 Nodo* Lista::obtenerNodo(int pos) {
 	Nodo* aux = primero;
 	for (size_t i = 0; i < pos; i++)
@@ -77,6 +79,16 @@ Nodo* Lista::obtenerNodo(int pos) {
 	return aux;
 }
 
+/*
+	Devuelve el nodo primero de la lista
+*/
+Nodo* Lista::getPrimero()
+{
+	return primero;
+}
+/*
+	Muestra la lista de valores de la lista.
+*/
 void Lista::verValores() {
 	Nodo* auxiliar = primero;
 	cout << " | ";

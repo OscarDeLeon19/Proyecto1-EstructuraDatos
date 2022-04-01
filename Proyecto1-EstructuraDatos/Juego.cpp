@@ -3,7 +3,9 @@
 #include "Reporte.h"
 #include "Tabla.h"
 using namespace std;
-
+/*
+	Constructor de la clase juego
+*/
 Juego::Juego(Matriz *matriz, int* datosMatriz, int niveles, int columnas, int filas)
 {
 	this->matriz = matriz;
@@ -13,8 +15,24 @@ Juego::Juego(Matriz *matriz, int* datosMatriz, int niveles, int columnas, int fi
 	this->filas = filas;
 	tabla = new Tabla();
 }
+/*
+	Destructor de la clase juego
+*/
+Juego::~Juego()
+{
+	for (int i = 0; i < niveles; i++)
+	{
+		matriz[i].~Matriz();
+	}
+	delete matriz;
+	delete jugador;
+	delete datosMatriz;
+	delete tabla;
+}
 
-
+/*
+	Inicia el juego. Despliega las opciones y genera el ciclo que se repite mientras el juego no termine.
+*/
 void Juego::iniciarJuego() {
 	string nombre;
 	cout << "Ingresa tu nombre: " << endl;
@@ -23,12 +41,9 @@ void Juego::iniciarJuego() {
 	iniciarMatriz();	
 	agregarNodosMatriz();
 	obtenerJugador();
-	
-	
 	bool accion = true;
 	int pasos = 0;
-	unsigned tiempoInicial, tiempoFinal;
-	
+	unsigned tiempoInicial, tiempoFinal;	
 	tiempoInicial = clock();
 	cout << endl;
 	cout << "Acciones:" << endl;
@@ -103,12 +118,12 @@ void Juego::iniciarJuego() {
 		}		
 	}
 		tiempoFinal = clock();
-		double tiempoPartida = (double(tiempoFinal - tiempoInicial) / CLOCKS_PER_SEC);
+		int tiempoPartida = (int(tiempoFinal - tiempoInicial) / CLOCKS_PER_SEC);
 		int punteo = obtenerPunteo();;
 		cout << endl;
 		cout << "Reporte" << endl;
 		cout << "Pasos: " << pasos << endl;
-		cout << "Tiempo: " << tiempoPartida << endl;
+		cout << "Tiempo: " << tiempoPartida << " seg" << endl;
 		cout << "Punteo: " << punteo << endl;	
 		Reporte* reporte = new Reporte(nombre, punteo, tiempoPartida);
 		tabla->agregarReporte(reporte);
@@ -121,9 +136,15 @@ void Juego::iniciarJuego() {
 		if (des == 1) {
 			iniciarJuego();
 		}
+		else {
+			cout << "Fin del programa. Resultados" << endl;
+			tabla->verReportes();
+		}
 		
 }
-
+/*
+	Cambia de lugar la casilla del jugador con la casilla de abajo.
+*/
 void Juego::moverArriba() {
 	if (jugador->abajo != NULL) {
 		Nodo* nuevo = new (Nodo);
@@ -139,7 +160,9 @@ void Juego::moverArriba() {
 	}
 	listarMatriz();
 }
-
+/*
+	Cambia de lugar la casilla del jugador con la casilla de arriba.
+*/
 void Juego::moverAbajo() {
 	if (jugador->arriba != NULL) {
 		Nodo* nuevo = new (Nodo);
@@ -156,6 +179,9 @@ void Juego::moverAbajo() {
 	listarMatriz();
 }
 
+/*
+	Cambia de lugar la casilla del jugador con la casilla de la derecha.
+*/
 void Juego::moverIzquierda() {
 	if (jugador->siguiente != NULL) {
 		Nodo* nuevo = new (Nodo);
@@ -171,7 +197,9 @@ void Juego::moverIzquierda() {
 	}
 	listarMatriz();
 }
-
+/*
+	Cambia de lugar la casilla del jugador con la casilla de la izquierda.
+*/
 void Juego::moverDerecha() {
 	if (jugador->anterior != NULL) {
 		Nodo* nuevo = new (Nodo);
@@ -187,7 +215,9 @@ void Juego::moverDerecha() {
 	}
 	listarMatriz();
 }
-
+/*
+	Cambia de lugar la casilla del jugador con la casilla de atras.
+*/
 void Juego::moverAdelante() {
 	if (jugador->atras != NULL) {
 		Nodo* nuevo = new (Nodo);
@@ -204,6 +234,9 @@ void Juego::moverAdelante() {
 	listarMatriz();
 }
 
+/*
+	Cambia de lugar la casilla del jugador con la casilla de adelante.
+*/
 void Juego::moverAtras() {
 	if (jugador->adelante != NULL) {
 		Nodo* nuevo = new (Nodo);
@@ -220,6 +253,9 @@ void Juego::moverAtras() {
 	listarMatriz();
 }
 
+/*
+	Inicializa las matrices
+*/
 void Juego::iniciarMatriz() {
 	int dato = 0;
 	int posicion = 1;
@@ -236,6 +272,9 @@ void Juego::iniciarMatriz() {
 	listarMatriz();
 }
 
+/*
+	Agrega los nodos de adelante y atras entre matrices
+*/
 void Juego::agregarNodosMatriz()
 {
 	for (int i = 0; i < (niveles - 1); i++)
@@ -257,6 +296,9 @@ void Juego::agregarNodosMatriz()
 	}
 }
 
+/*
+	Imprime las matrices en pantalla
+*/
 void Juego::listarMatriz()
 {
 	for (int i = 0; i < niveles; i++)
@@ -266,6 +308,9 @@ void Juego::listarMatriz()
 	}
 }
 
+/*
+	Iguala el nodo jugador al obtenido de las matrices
+*/
 void Juego::obtenerJugador()
 {
 	jugador = new (Nodo);	
@@ -277,7 +322,9 @@ void Juego::obtenerJugador()
 		}
 	}
 }
-
+/*
+	Obtiene el punteo total obtenido de las matrices
+*/
 int Juego::obtenerPunteo()
 {
 	int total = 0;
@@ -289,6 +336,9 @@ int Juego::obtenerPunteo()
 	return total;
 }
 
+/*
+	Comprueba si todos los nodos estan en la posicion correcta
+*/
 bool Juego::comprobarVictoria()
 {
 	bool victoria = true;

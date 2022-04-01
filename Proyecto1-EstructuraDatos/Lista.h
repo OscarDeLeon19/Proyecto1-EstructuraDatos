@@ -1,12 +1,16 @@
 #pragma once
+#include "Nodo.h"
 
 class Lista {
 public:
 	Lista();
-	struct Nodo *primero;
+	~Lista();
 	void llenarLista(int, int);
 	void verLista();
 	void verListaAlRevez();
 	void verValores();
 	Nodo* obtenerNodo(int);
+	Nodo* getPrimero();
+private:
+	struct Nodo* primero;
 };

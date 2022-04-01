@@ -3,16 +3,30 @@
 #include "Lista.h"
 #include <iostream>
 using namespace std;
-
+/*
+	Constructor de la clase matriz
+*/
 Matriz::Matriz(int filas, int columnas) {
 	this->filas = filas;
 	this->columnas = columnas;
 }
-
+/*
+	Destructor de la clase matriz
+*/
 Matriz::Matriz()
 {
 }
-
+/*
+	Destructor de la clase matriz
+*/
+Matriz::~Matriz()
+{
+	lista->~Lista();
+}
+/*
+	Comprueba si los nodos estan ordenados de la manera correcta.
+	Devuelve el resultado.
+*/
 bool Matriz::comprobarVictoria(bool ultimo){
 	bool comprobacion = true;
 	for (int i = 0; i < columnas; i++)
@@ -42,7 +56,9 @@ bool Matriz::comprobarVictoria(bool ultimo){
 	}
 	return comprobacion;
 }
-
+/*
+	Cuenta el punteo obtenido en la matriz
+*/
 int Matriz::contarPunteo() {
 	int punteo = 0;
 	for (int i = 0; i < columnas; i++)
@@ -58,10 +74,16 @@ int Matriz::contarPunteo() {
 	}
 	return punteo;
 }
-
+/*
+	Obtiene el array de listas de la matriz
+*/
 Lista* Matriz::obtenerLista() {
 	return lista;
 }
+
+/*
+	Devuelve el nodo con el valor 0
+*/
 Nodo* Matriz::devolverJugador()
 {
 	Nodo* nodoJugador = new (Nodo);
@@ -78,11 +100,10 @@ Nodo* Matriz::devolverJugador()
 	}
 	return nodoJugador;
 }
-void Matriz::verDatosMatriz() {
-	cout << "Filas: " << filas <<endl;
-	cout << "Columnas: " << columnas << endl;
-}
 
+/*
+	Mueestra la lista de matrices con sus posiciones
+*/
 void Matriz::listarMatrizPosicion() {
 	for (size_t i = 0; i < columnas; i++)
 	{
@@ -90,7 +111,9 @@ void Matriz::listarMatrizPosicion() {
 	}
 	cout << endl;
 }
-
+/*
+	Muestra la matriz con sus valores
+*/
 void Matriz::listarMatrizValor() {
 	cout << endl;
 	for (int i = 0; i < columnas; i++)
@@ -99,6 +122,10 @@ void Matriz::listarMatrizValor() {
 	}
 	cout << endl;
 }
+
+/*
+	Crea la matriz ortogonal utilizando varias listas enlazadas.
+*/
 void Matriz::generarMatriz() {
 	// Se inicia con la creacion de las listas enlazadas
 	lista = new Lista[columnas];
@@ -110,7 +137,7 @@ void Matriz::generarMatriz() {
 		lista[i].llenarLista(inicio,final);
 	}
 	primero = new (Nodo);
-	primero = lista[0].primero;
+	primero = lista[0].getPrimero();;
 	// Iniciamos el proceso de agregar los nodos de arriba y abajo;
 	for (size_t i = 0; i < columnas -1; i++)
 	{
@@ -125,7 +152,9 @@ void Matriz::generarMatriz() {
 		}
 	}
 }
-
+/*
+	Ingresa los datos de la matriz a cada nodo
+*/
 int Matriz::ingresarDatos(int dato, int* datosMatriz) {
 	
 	for (int i = 0; i < columnas; i++)
@@ -140,7 +169,9 @@ int Matriz::ingresarDatos(int dato, int* datosMatriz) {
 	}
 	return dato;
 }
-
+/*
+	Ingresa las posiciones a los nodos de la matriz
+*/
 int Matriz::ingresarPosiciones(int lugar) {
 	for (int i = 0; i < columnas; i++)
 	{

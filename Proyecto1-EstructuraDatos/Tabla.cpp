@@ -1,10 +1,22 @@
 #include "Tabla.h"
 #include <iostream>
-
+/*
+	Constructor de la clase tabla
+*/
 Tabla::Tabla()
 {
 }
-
+/*
+	Destructor de la clase tabla
+*/
+Tabla::~Tabla()
+{
+	primero->~Reporte();
+	delete primero;
+}
+/*
+	Agrega un reporte nuevo a la lista de reportes.
+*/
 void Tabla::agregarReporte(Reporte* reporte)
 {
 	if (primero == NULL) {
@@ -20,7 +32,9 @@ void Tabla::agregarReporte(Reporte* reporte)
 		reporte->setSiguiente(NULL);
 	}
 }
-
+/*
+	Muestra todos los reportes que estan en la lista
+*/
 void Tabla::verReportes()
 {
 	cout << endl;
@@ -28,21 +42,24 @@ void Tabla::verReportes()
 		cout << "No hay reportes agregados" << endl;
 	}
 	else {
+		cout << "Jugadores" << endl;
+		cout << endl;
 		Reporte* aux = primero;
 		int i = 1;
 		while (aux->getSiguiente() != NULL) {
-			cout << "Reporte No." << i << endl;
+			cout << "Jugador No." << i << endl;
 			cout << "Nombre: " << aux->getNombre() << endl;
 			cout << "Punteo: " << aux->getPunteo() << endl;
-			cout << "Tiempo: " << aux->getTiempo() << endl;
+			cout << "Tiempo: " << aux->getTiempo() << " segundos" << endl;
 			cout << endl;
 			aux = aux->getSiguiente();
 			i++;
 		}
-		cout << "Reporte No." << i << endl;
+		cout << "Jugador No." << i << endl;
 		cout << "Nombre: " << aux->getNombre() << endl;
 		cout << "Punteo: " << aux->getPunteo() << endl;
-		cout << "Tiempo: " << aux->getTiempo() << endl;
+		cout << "Tiempo: " << aux->getTiempo() << " segundos" << endl;
 		cout << endl;
+
 	}
 }

@@ -4,6 +4,7 @@
 class Tabla {
 public:
 	Tabla();
+	~Tabla();
 	void agregarReporte(Reporte* reporte);
 	void verReportes();
 private:

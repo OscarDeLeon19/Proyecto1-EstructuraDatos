@@ -4,11 +4,10 @@
 #include "Matriz.h"
 #include "Juego.h"
 
-
 using namespace std;
-
-
-
+/*
+    Este metodo se utiliza para comprobar que un numero este repetido.
+*/
 bool comprobarNumero(int inicio, int numero, int *arreglo) {
     bool comprobacion = false;
     for (int i = 0; i < inicio; i++)
@@ -17,10 +16,11 @@ bool comprobarNumero(int inicio, int numero, int *arreglo) {
             comprobacion = true;
         }
     }
-
     return comprobacion;
 }
-
+/*
+    Metodo en donde se ingresn los datos de las matrices manualmente.
+*/
 int* ingresarDatos(int filas, int columnas, int niveles) {
     int dimension = filas * columnas * niveles;
     int* datosMatriz = new int[dimension];
@@ -47,7 +47,9 @@ int* ingresarDatos(int filas, int columnas, int niveles) {
     }
     return datosMatriz;
 }
-
+/*
+    Ingresa los datos de la matriz de forma aleatoria.
+*/
 int* ingresarDatosAleatorios(int filas, int columnas, int niveles) {
     int dimension = filas * columnas * niveles;
     int* datosMatriz = new int[dimension];
@@ -66,7 +68,9 @@ int* ingresarDatosAleatorios(int filas, int columnas, int niveles) {
 }
 
 
-
+/*
+    Metodo main de la aplicacion. Pide ingresar los datos iniciales del juego.
+*/
 int main()
 {
     cout << "Bienvenido al juego" << endl;
@@ -103,4 +107,7 @@ int main()
     }
     Juego* juego = new Juego(matrices, datosMatriz, niveles, columnas, filas);
     juego->iniciarJuego();
+    
+    system("pause");
+    return 0;
 }
