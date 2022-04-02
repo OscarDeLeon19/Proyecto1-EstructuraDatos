@@ -8,7 +8,6 @@ public:
 	Matriz(int,int);
 	Matriz();
 	~Matriz();
-	void verDatosMatriz();
 	void generarMatriz();
 	void listarMatrizPosicion();
 	void listarMatrizValor();

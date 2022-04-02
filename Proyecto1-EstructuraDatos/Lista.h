@@ -7,7 +7,6 @@ public:
 	~Lista();
 	void llenarLista(int, int);
 	void verLista();
-	void verListaAlRevez();
 	void verValores();
 	Nodo* obtenerNodo(int);
 	Nodo* getPrimero();
